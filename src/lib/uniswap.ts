@@ -2,15 +2,15 @@ export const ROUTER_ADDRESS = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D" as co
 
 export const ROUTER_ABI = [
     {
-        name: "getAmountOut",
+        name: "getAmountsOut",
         type: "function",
-        stateMutability:"view",
+        stateMutability: "view",
         inputs:[
             {name: "amountIn", type:"uint256"},
-            {name:"path", type:"address[]"},
+            {name: "path", type:"address[]"},
         ],
-        output: [
-            {name : "amounts", type:"uint256[]"}
+        outputs: [
+            {name: "amounts", type:"uint256[]"}
         ]
     },
     {

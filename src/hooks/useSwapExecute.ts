@@ -6,18 +6,17 @@ export function useSwapExecute() {
     const { address } = useAccount();
 
     const {
-        mutate: executeSwap,
+        writeContract: executeSwap,
         data: swapTxHash,
         isPending: isSwapping,
         error: swapError
     } = useWriteContract()
 
     // Wait for the swap tx to land in a block
-    // Like polling /api/order/:id until status = "complete"
     const {
-        isLoading: isConfirming,
-        isSuccess: isConfirmed
-    } = useWaitForTransactionReceipt()
+        isSuccess: isConfirmed,
+        status: receiptStatus,
+    } = useWaitForTransactionReceipt({ hash: swapTxHash })
 
     // the main swap fucntion
     const swap = (
@@ -45,10 +44,12 @@ export function useSwapExecute() {
         })
     }
 
+    const isWaitingForReceipt = !!swapTxHash && receiptStatus === "pending";
+
     return {
         swap,
         swapTxHash,
-        isSwapping: isSwapping || isConfirming,
+        isSwapping: isSwapping || isWaitingForReceipt,
         isConfirmed,
         swapError
     }

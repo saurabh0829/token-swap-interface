@@ -28,29 +28,32 @@ export function useTokenApproval(
     } = useWriteContract();
 
     // Step3 : Wait for approval tx to confirm
-    const {isLoading:isWaitingApproval, isSuccess: isApproved} = useWaitForTransactionReceipt({
-        hash:approveTxHash
+    const {isSuccess: isApproved, status: receiptStatus} = useWaitForTransactionReceipt({
+        hash: approveTxHash,
     })
 
     // Does the router already have enough allowance?
-    const needsApproval = 
-        currentAllowance !== undefined && 
+    const needsApproval =
+        currentAllowance !== undefined &&
         currentAllowance < amountNeeded;
-    
-    const requestApproval = ()=>{
-        if(!tokenAddress) return;
+
+    const requestApproval = () => {
+        if (!tokenAddress) return;
         approve({
-            address:tokenAddress,
-            abi:erc20Abi,
+            address: tokenAddress,
+            abi: erc20Abi,
             functionName: "approve",
-            args:[ROUTER_ADDRESS, maxUint256]
+            args: [ROUTER_ADDRESS, maxUint256]
         })
     }
+
+    // isPending = wallet waiting for signature; receiptStatus 'pending' = tx mining
+    const isWaitingForReceipt = !!approveTxHash && receiptStatus === "pending";
 
     return {
         needsApproval,
         requestApproval,
-        isApproving: isApproving || isWaitingApproval,
+        isApproving: isApproving || isWaitingForReceipt,
         isApproved,
         refetchAllowance
     }

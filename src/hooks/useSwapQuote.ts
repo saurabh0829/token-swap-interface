@@ -18,7 +18,7 @@ export function useSwapQuote(
     const {data, isLoading, error} = useReadContract({
         address: ROUTER_ADDRESS,
         abi: ROUTER_ABI,
-        functionName: "getAmountOut",
+        functionName: "getAmountsOut",
         args: enabled ? [
             amountInWei,
             [tokenIn!.address, tokenOut!.address],
