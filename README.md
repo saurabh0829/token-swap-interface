@@ -2,6 +2,10 @@
 
 A Uniswap V2 token swap interface built with Next.js, wagmi, and viem. Supports live price quotes, ERC-20 approval flow, slippage settings, price impact display, and pool reserve stats — with local mainnet forking via Hardhat.
 
+#ScreenShots:
+<img width="1424" height="800" alt="Screenshot 2026-06-24 at 15 37 22" src="https://github.com/user-attachments/assets/80d6340d-1c58-4830-9676-19bab960f0df" />
+
+
 ## Stack
 
 - **Next.js 15** — app router, SSR disabled for wallet components
